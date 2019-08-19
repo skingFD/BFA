@@ -1,0 +1,11 @@
+digraph {
+	"ospf.1" -> "bgp.2/1" [label="20.0"]
+	"ospf.1" -> "bgp.1/2" [label="20.0"]
+	"ospf.1" -> "static.n3.10.0.0.0/24" [label="20.0"]
+	"bgp.3/2"[shape=oval, style=filled, fillcolor=blue]
+	"bgp.2/1"[shape=oval, style=filled, fillcolor=blue]
+	"ospf.1"[shape=oval, style=filled, fillcolor=orange]
+	"bgp.1/2"[shape=oval, style=filled, fillcolor=blue]
+	"static.n3.10.0.0.0/24"[shape=oval, style=filled, fillcolor=green]
+label="InstanceGraph"
+}

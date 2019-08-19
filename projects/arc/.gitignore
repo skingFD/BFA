@@ -1,0 +1,10 @@
+/bin/
+/target/
+/lib/batfishLib.jar
+/lib/gurobi.jar
+/logs
+/configs
+/plots
+/graphs
+ir.obj
+networks.txt

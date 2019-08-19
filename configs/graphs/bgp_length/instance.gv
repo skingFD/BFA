@@ -1,0 +1,4 @@
+digraph {
+	"bgp.106/102/107/103/105/101"[shape=oval, style=filled, fillcolor=blue]
+label="InstanceGraph"
+}

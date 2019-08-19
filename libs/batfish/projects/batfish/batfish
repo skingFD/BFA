@@ -1,0 +1,9 @@
+#!/bin/bash
+BATFISH=${BASH_SOURCE[0]}
+BATFISH_PATH=$(dirname $BATFISH)
+BATFISH_JAR=$BATFISH_PATH/out/batfish.jar
+if batfish_cygwin; then
+   BATFISH_JAR="$(cygpath -w $BATFISH_JAR)"
+fi
+java ${BATFISH_JAVA_OPTS} -jar "$BATFISH_JAR" $@
+

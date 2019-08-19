@@ -1,0 +1,6 @@
+digraph {
+	"bgp.2"[shape=oval, style=filled, fillcolor=blue]
+	"ospf.1"[shape=oval, style=filled, fillcolor=orange]
+	"bgp.2/65001"[shape=oval, style=filled, fillcolor=blue]
+label="InstanceGraph"
+}

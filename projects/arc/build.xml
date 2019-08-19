@@ -1,0 +1,66 @@
+<project name="arc" default="dist">
+    <property name="main-class" 
+            value="edu.wisc.cs.arc.Driver" />
+    <property name="batfish" value="../../libs/batfish/" />
+    <property name="lib-dir" value="lib"/>
+    <path id="classpath">
+        <fileset dir="${lib-dir}" includes="**/*.jar"/>
+    </path>
+
+    <!-- Use JDK 1.8 for compiling -->
+    <property name="ant.build.javac.source" value="1.8"/>
+    <property name="ant.build.javac.target" value="1.8"/>
+
+    <!-- Build Batfish -->
+    <target name="batfishLib.check">
+        <available file="lib/batfishLib.jar" property="batfishLib.built"/>
+    </target> 
+    <target name="batfish" depends="batfishLib.check" unless="batfishLib.built">
+        <ant dir="${batfish}/projects/batfish-common-protocol" />
+        <ant dir="${batfish}/projects/batfish" target="compile" />
+        <jar destfile="lib/batfishLib.jar">
+            <fileset dir="${batfish}/projects/batfish-common-protocol/bin/" />
+            <fileset dir="${batfish}/projects/batfish/bin/" />
+        </jar>
+    </target>
+
+    <!-- Gurobi Check -->
+    <target name="gurobiLib.check">
+        <available file="lib/gurobi.jar" property="gurobiLib.present"/>
+    </target> 
+
+    <!-- Compile -->
+    <target name="compile" depends="batfish,gurobiLib.check">
+        <mkdir dir="bin/" />
+        <javac includeantruntime="false" srcdir="src/" destdir="bin/"
+            debug="on">
+            <exclude name="**/*Gurobi.java" unless="gurobiLib.present" />
+            <classpath>
+                <fileset dir="lib" includes="*.jar" />
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- Build JAR file -->
+    <target name="dist" depends="compile">
+        <mkdir dir="target/" />
+        <jar destfile="target/${ant.project.name}.jar">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}" />
+                <attribute name="Class-Path" value="*:lib/*" />
+            </manifest>
+            <fileset dir="bin/" />
+        </jar>
+        <mkdir dir="target/lib" />
+        <copy todir="target/lib" flatten="true">
+            <fileset dir="${lib-dir}" includes="*.jar" />
+            <fileset dir="${batfish}/lib" includes="**/*.jar" />
+        </copy>
+    </target>
+
+    <target name="clean">
+        <delete dir="bin/" />
+        <delete dir="target/" />
+        <delete file="lib/batfishLib.jar/" />
+    </target>
+</project>
